@@ -1,5 +1,6 @@
 import { NavigationActions } from 'react-navigation';
 import extend from 'lodash/extend';
+import _ from 'lodash';
 import { call, put, take, fork } from 'redux-saga/effects';
 import ref from '../../utils/ref';
 import {
@@ -56,6 +57,9 @@ const callApi = function*(entityActions, apiFn, options = {}) {
     }
     
     try {
+        if (_.isEmpty(args))
+        res = yield call(apiFunction);
+        else
         res = yield call(apiFunction, ...args);
     } catch (err) {
         console.log('ERROR!!!!! =>>', err.request)
