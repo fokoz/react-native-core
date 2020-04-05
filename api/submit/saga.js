@@ -1,6 +1,7 @@
 import extend from 'lodash/extend';
 import { call, put, take } from 'redux-saga/effects';
 import ref from '../../utils/ref';
+import _ from 'lodash';
 import {
     showLoadingOverlayAndDisableBack,
     showLoadingOverlay,
@@ -38,7 +39,10 @@ const callApi = function*(entityActions, apiFn, options = {}) {
     }
 
     try {
-        res = yield call(apiFunction, ...args);
+      if (_.isEmpty(args))
+      res = yield call(apiFunction);
+      else
+      res = yield call(apiFunction, ...args);
     } catch (err) {
         const isTokenError = ref(err, 'response.status') === 401;
 
